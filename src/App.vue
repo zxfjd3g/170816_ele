@@ -49,9 +49,17 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "./common/stylus/mixins.styl"
   .tab
+    height 40px
+    line-height 40px
+    border-1px(rgba(7,17,27,0.1))
     .tab-item
-      display: inline-block
+      float left
+      width:33.33333%
+      text-align center
+      font-size 14px
+      color rgb(77,85,93)
       .router-link-active
-        color: red
+        color: rgb(240,20,20)
 </style>

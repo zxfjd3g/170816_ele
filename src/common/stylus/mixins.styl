@@ -1,0 +1,23 @@
+bg-image($url)
+  background-image url("./"+ $url +"@2x.png")
+  @media (-webkit-min-device-pixel-ratio: 3)
+    background-image url("./"+ $url +"@3x.png")
+
+
+bg-star($url)
+  background-image url("../star/"+ $url +"@2x.png")
+  @media (-webkit-min-device-pixel-ratio: 3)
+    background-image url("../star/"+ $url +"@3x.png")
+
+border-1px($color)
+  position relative
+  border none
+  &:after
+    content ''
+    position absolute
+    left 0
+    bottom 0
+    width 100%
+    height 1px
+    background-color $color
+    transform scaleY(0.5)
