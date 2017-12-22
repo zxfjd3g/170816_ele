@@ -5,7 +5,7 @@
         <ul>
           <!--current-->   <!--currentIndex-->
           <li class="menu-item" v-for="(good, index) in goods"
-              :key="index" :class="{current: currentIndex===index}">
+              :key="index" :class="{current: currentIndex===index}" @click="clickMenu(index)">
             <span class="text border-1px">
               <span class="icon" v-if="good.type>=0" :class="supportClasses[good.type]"></span>
               {{good.name}}
@@ -71,24 +71,33 @@
           this._initTops()
         })
       })
-
     },
 
     methods: {
       _initScroll () {
         // 控制左侧列表滑动的scroll
-        new BScroll(this.$refs.menuWrapper)
+        new BScroll(this.$refs.menuWrapper, {
+          click: true  // 分发点击事件
+        })
 
         // 控制右侧列表滑动的scroll
-        const foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
           // startY: -100
-          probeType: 2 //会在滑动(手指触摸)过程中实时派发scroll事件
+          probeType: 2, //会在滑动(手指触摸)过程中实时派发scroll事件
+          click: true
         })
 
         // 监视右侧列表的滚动
-        foodsScroll.on('scroll', (event) => {
+        this.foodsScroll.on('scroll', (event) => {
           // 获取滚动的y坐标
           console.log('scroll', event.y)
+          this.scrollY = Math.abs(event.y)
+        })
+
+        // 监视右侧列表的滚动结束
+        this.foodsScroll.on('scrollEnd', (event) => {
+          // 获取滚动的y坐标
+          console.log('scrollEnd', event.y)
           this.scrollY = Math.abs(event.y)
         })
       },
@@ -107,6 +116,15 @@
         // 更新状态
         this.tops = tops
         console.log(tops)
+      },
+
+      clickMenu (index) {
+        // console.log('clickMenu()')
+
+        // 立即更新scrollY, 立即让currentIndex重新计算
+        this.scrollY = this.tops[index]
+        // 让右侧列表平滑滚动到指定位置
+        this.foodsScroll.scrollTo(0, -this.tops[index], 300)
       }
     },
 
