@@ -222,7 +222,7 @@
       width 100%
       height 100%
       z-index -1
-      &>img
+      img
         width 100%
         height 100%
         filter blur(10px)
@@ -283,18 +283,16 @@
                 height 16px
                 background-repeat no-repeat
                 background-size 100% 100%
-              .decrease
-                bg-image(decrease_2)
-              .discount
-                bg-image(discount_2)
-              .guarantee
-                bg-image(guarantee_2)
-              .invoice
-                bg-image(invoice_2)
-              .special
-                bg-image(special_2)
-
-
+                &.decrease
+                  bg-image(decrease_2)
+                &.discount
+                  bg-image(discount_2)
+                &.guarantee
+                  bg-image(guarantee_2)
+                &.invoice
+                  bg-image(invoice_2)
+                &.special
+                  bg-image(special_2)
               &>span
                 margin-left 6px
                 font-size 12px
@@ -307,13 +305,10 @@
               line-height 24px
               font-weight 200
 
-
-
-
       .mask-footer
         margin-top -64px
         text-align center
-        &>span
+        span
           font-size 32px
           color rgba(255,255,255,0.5)
 
