@@ -1,3 +1,14 @@
+# vue项目常见问题
+## 1. 初始显示异常
+    问题: Cannot read property '0' of undefined"
+    原因: 初始值是空对象, 内部没有数据, 而模块中直接显示3层表达式
+    解决: 使用v-if指令
+    
+    问题: Cannot read property 'avatar' of null"
+    原因: 初始值是null, 而模块中直接显示2层表达式
+    解决: 初始值为{}
+
+
 # day01
 ## 1. 项目开发的准备
     如何描述项目: 项目功能, 项目的主要功能模块, 主要的技术, 开发的模式
@@ -46,6 +57,16 @@
     2x图与3x图
     图标字体
     
-    
+# day02
+## 1. header动态组件
+
+## 2. star组件
+
+## 3. goods组件
+
+## 4. cartcontrol组件
+
+
+
     
 
