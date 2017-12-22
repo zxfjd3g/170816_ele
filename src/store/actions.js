@@ -15,6 +15,7 @@ export default {
       const result = response.data  // {code:0, data: seller}
       if(result.code===0) {
         const seller = result.data
+        seller.score = 3.5
         commit(RECEIVE_SELLER, {seller})
       }
     })
