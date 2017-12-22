@@ -3,8 +3,9 @@
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-          <!--current-->
-          <li class="menu-item" v-for="(good, index) in goods" :key="index">
+          <!--current-->   <!--currentIndex-->
+          <li class="menu-item" v-for="(good, index) in goods"
+              :key="index" :class="{current: currentIndex===index}">
             <span class="text border-1px">
               <span class="icon" v-if="good.type>=0" :class="supportClasses[good.type]"></span>
               {{good.name}}
@@ -54,6 +55,8 @@
     data() {
       return {
         supportClasses: ['decrease', 'discount', 'guarantee', 'invoice', 'special'],
+        scrollY: 0, //右侧滑动的y坐标
+        tops: [] // 所有右侧分类li标签的top所组成数组
       }
     },
     mounted() {
@@ -65,6 +68,7 @@
         // 在状态更新之后执行
         this.$nextTick(() => { // 回调函数在界面更新之后立即执行
           this._initScroll()
+          this._initTops()
         })
       })
 
@@ -72,13 +76,61 @@
 
     methods: {
       _initScroll () {
+        // 控制左侧列表滑动的scroll
         new BScroll(this.$refs.menuWrapper)
-        new BScroll(this.$refs.foodsWrapper)
+
+        // 控制右侧列表滑动的scroll
+        const foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          // startY: -100
+          probeType: 2 //会在滑动(手指触摸)过程中实时派发scroll事件
+        })
+
+        // 监视右侧列表的滚动
+        foodsScroll.on('scroll', (event) => {
+          // 获取滚动的y坐标
+          console.log('scroll', event.y)
+          this.scrollY = Math.abs(event.y)
+        })
       },
+
+      _initTops () {
+        // 找到所有li
+        const lis = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
+        // 统计top
+        const tops = []
+        let top = 0
+        tops.push(top)
+        Array.prototype.slice.call(lis).forEach(li => {
+          top += li.clientHeight
+          tops.push(top)
+        })
+        // 更新状态
+        this.tops = tops
+        console.log(tops)
+      }
     },
 
     computed: {
-      ...mapState(['goods'])
+      ...mapState(['goods']),
+
+      /*
+      1. 分析出相关的数据
+          scrollY: 右侧滑动的y坐标
+          tops: 所有右侧分类li标签的top所组成数组
+      2. 分析计算逻辑
+          tops = [0, 10, 15, 18, 15]
+          scrollY =      14, 17, 20
+          currentIndex = 1, 2, 3
+          scrollY>=top && scrollY<nextTop
+      计算属性什么就会执行?: 相关的数据发生了变化
+       */
+      currentIndex () {
+        const {tops, scrollY} = this
+        console.log('currentIndex', scrollY)
+        return tops.findIndex((top, index) => {
+          return scrollY>=top && scrollY<tops[index+1]
+        })
+      }
     }
   }
 </script>
