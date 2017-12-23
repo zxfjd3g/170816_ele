@@ -6,7 +6,9 @@ import {
 import {
   RECEIVE_SELLER,
   RECEIVE_RATINGS,
-  RECEIVE_GOODS
+  RECEIVE_GOODS,
+  INCRMENT_FOOD_COUNT,
+  DECRMENT_FOOD_COUNT
 } from './mutation-types'
 
 export default {
@@ -41,5 +43,14 @@ export default {
         cb && cb()
       }
     })
+  },
+
+  // 增加/减少指定食物的数量
+  updateFoodCount ({commit}, {food, isAdd}) {
+    if(isAdd) {
+      commit(INCRMENT_FOOD_COUNT, {food})
+    } else {
+      commit(DECRMENT_FOOD_COUNT, {food})
+    }
   }
 }

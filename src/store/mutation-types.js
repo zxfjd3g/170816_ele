@@ -1,3 +1,5 @@
 export const RECEIVE_GOODS = 'receive_goods'
 export const RECEIVE_RATINGS = 'receive_ratings'
 export const RECEIVE_SELLER = 'receive_seller'
+export const INCRMENT_FOOD_COUNT = 'incrment_food_count'
+export const DECRMENT_FOOD_COUNT = 'decrment_food_count'
