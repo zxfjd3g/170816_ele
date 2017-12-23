@@ -43,6 +43,7 @@
           </li>
         </ul>
       </div>
+      <shopcart :foods="cartFoods"/>
     </div>
   </div>
 </template>
@@ -52,6 +53,9 @@
   import {mapState} from 'vuex'
 
   import cartcontrol from '../../components/cartcontrol/cartcontrol.vue'
+  import shopcart from '../../components/shopcart/shopcart.vue'
+
+
 
   export default {
     data() {
@@ -150,11 +154,24 @@
         return tops.findIndex((top, index) => {
           return scrollY>=top && scrollY<tops[index+1]
         })
+      },
+
+      cartFoods () {
+        const foods = []
+        this.goods.forEach(good => {
+          good.foods.forEach(food => {
+            if(food.count>0) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
       }
     },
 
     components: {
-      cartcontrol
+      cartcontrol,
+      shopcart
     }
   }
 </script>
