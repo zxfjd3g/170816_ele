@@ -20,29 +20,36 @@
       </div>
       <div class="ball-container"></div>
 
-      <div class="shopcart-list" v-show="listShow">
-        <div class="list-header">
-          <h1 class="title">购物车</h1>
-          <span class="empty">清空</span>
+      <transition name="swipe">
+        <div class="shopcart-list" v-show="listShow">
+          <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty" @click="clearCart">清空</span>
+          </div>
+          <div class="list-content" ref="foods">
+            <ul>
+              <li class="food" v-for="(food, index) in foods" :key="index">
+                <span class="name">{{food.name}}</span>
+                <div class="price"><span>￥{{food.price}}</span></div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"/>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="list-content" ref="foods">
-          <ul>
-            <li class="food" v-for="(food, index) in foods" :key="index">
-              <span class="name">{{food.name}}</span>
-              <div class="price"><span>￥{{food.price}}</span></div>
-              <div class="cartcontrol-wrapper">
-                <cartcontrol :food="food"/>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+      </transition>
+
     </div>
-    <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
+    <transition name="fade">
+      <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
+    </transition>
+
   </div>
 </template>
 
 <script>
+  import BScroll from 'better-scroll'
   import {mapState} from 'vuex'
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
 
@@ -62,6 +69,10 @@
         if(this.totalCount) {
           this.isShow = !this.isShow
         }
+      },
+
+      clearCart () {
+        this.$store.dispatch('clearCart', this.foods)
       }
     },
 
@@ -94,11 +105,29 @@
       },
 
       listShow () {
+        console.log('listShow')
         let {isShow, totalCount} = this
         if(totalCount===0) {
           // 一旦数量变为0时, 设置isShow为false
           this.isShow = false
           return false
+        }
+
+        if(isShow) {
+          this.$nextTick(() => {
+
+            /*
+            单例: 只有一个实例
+            实现:
+                1. 在创建之前: 判断只有不存在时才创建
+                2. 在创建之后: 保存
+             */
+            if(!this.scroll) {
+              this.scroll = new BScroll(this.$refs.foods, {click:true})
+            } else {
+              this.scroll.refresh() // 刷新滚动
+            }
+          })
         }
 
         return isShow
@@ -219,11 +248,11 @@
       top: 0
       z-index: -1
       width: 100%
-      transform: translate3d(0, -100%, 0)
-      &.fold-enter-active, &.fold-leave-active
-        transition: all 0.5s
-      &.fold-enter, &.fold-leave-active
-        transform: translate3d(0, 0, 0)
+      transform: translateY(-100%)
+      &.swipe-enter-active, &.swipe-leave-active
+        transition: transform .3s
+      &.swipe-enter, &.swipe-leave-to
+        transform: translateY(0)
       .list-header
         height: 40px
         line-height: 40px

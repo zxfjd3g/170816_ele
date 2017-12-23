@@ -4,24 +4,25 @@ import {
   RECEIVE_RATINGS,
   RECEIVE_GOODS,
   INCRMENT_FOOD_COUNT,
-  DECRMENT_FOOD_COUNT
+  DECRMENT_FOOD_COUNT,
+  CLEAR_CART
 } from './mutation-types'
 
 export default {
-  [RECEIVE_SELLER] (state, {seller}) {
+  [RECEIVE_SELLER](state, {seller}) {
     state.seller = seller
   },
 
-  [RECEIVE_RATINGS] (state, {ratings}) {
+  [RECEIVE_RATINGS](state, {ratings}) {
     state.ratings = ratings
   },
 
-  [RECEIVE_GOODS] (state, {goods}) {
+  [RECEIVE_GOODS](state, {goods}) {
     state.goods = goods
   },
 
-  [INCRMENT_FOOD_COUNT] (state, {food}) {
-    if(food.count) {
+  [INCRMENT_FOOD_COUNT](state, {food}) {
+    if (food.count) {
       food.count++
     } else {
       // food.count = 1 //给food添加属性count, 值为1    没有数据绑定
@@ -30,9 +31,13 @@ export default {
     }
   },
 
-  [DECRMENT_FOOD_COUNT] (state, {food}) {
-    if(food.count) {
+  [DECRMENT_FOOD_COUNT](state, {food}) {
+    if (food.count) {
       food.count--
     }
+  },
+
+  [CLEAR_CART](state, {foods}) {
+    foods.forEach(food => food.count = 0)
   }
 }
