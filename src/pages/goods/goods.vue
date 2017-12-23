@@ -18,7 +18,8 @@
           <li class="food-list food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item border-1px" v-for="(food, index) in good.foods" :key="index">
+              <li class="food-item border-1px" v-for="(food, index) in good.foods"
+                  :key="index" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon">
                 </div>
@@ -45,6 +46,7 @@
       </div>
       <shopcart :foods="cartFoods"/>
     </div>
+    <food :food="food" ref="food"/>
   </div>
 </template>
 
@@ -54,6 +56,7 @@
 
   import cartcontrol from '../../components/cartcontrol/cartcontrol.vue'
   import shopcart from '../../components/shopcart/shopcart.vue'
+  import food from '../../components/food/food.vue'
 
 
 
@@ -62,7 +65,8 @@
       return {
         supportClasses: ['decrease', 'discount', 'guarantee', 'invoice', 'special'],
         scrollY: 0, //右侧滑动的y坐标
-        tops: [] // 所有右侧分类li标签的top所组成数组
+        tops: [], // 所有右侧分类li标签的top所组成数组
+        food: {}
       }
     },
     mounted() {
@@ -131,6 +135,13 @@
         this.scrollY = this.tops[index]
         // 让右侧列表平滑滚动到指定位置
         this.foodsScroll.scrollTo(0, -this.tops[index], 300)
+      },
+
+      showFood (food) {
+        // 更新food
+        this.food = food
+        // 显示food组件
+        this.$refs.food.toggleShow()
       }
     },
 
@@ -171,7 +182,8 @@
 
     components: {
       cartcontrol,
-      shopcart
+      shopcart,
+      food
     }
   }
 </script>
