@@ -34,11 +34,18 @@
 
         <div class="rating">
           <h1 class="title">商品评价</h1>
-          <div>ratingselect组件</div>
+
+          <ratingselect :descs="['全部', '推荐', '吐槽']"
+                        :ratings="food.ratings"
+                        :selectType="selectType"
+                        :onlyContent="onlyContent"
+                        @setSelectType="setSelectType"
+                        @toggleOnlyContent="toggleOnlyContent"/>
 
           <div class="rating-wrapper">
             <ul>
-              <li class="rating-item border-1px" v-for="(rating, index) in food.ratings" :key="index">
+              <li class="rating-item border-1px"
+                  v-for="(rating, index) in filterRatings" :key="index">
                 <div class="user">
                   <span class="name">{{rating.username}}</span>
                   <img width="12" height="12" class="avatar" :src="rating.avatar">
@@ -62,6 +69,7 @@
 <script>
   import BScroll from 'better-scroll'
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
+  import ratingselect from '../ratingselect/ratingselect.vue'
 
   export default {
     props: {
@@ -70,7 +78,9 @@
 
     data() {
       return {
-        isShow: false
+        isShow: false,
+        onlyContent: false, //true/false
+        selectType: 1 // 0/1/2
       }
     },
 
@@ -87,11 +97,56 @@
             }
           })
         }
+      },
+
+      toggleOnlyContent () {
+        this.onlyContent = !this.onlyContent
+        // 刷新scroll
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      },
+
+      setSelectType (selectType) {
+       this.selectType = selectType
+        // 刷新scroll
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      }
+    },
+
+    computed: {
+      /*
+      1. 相关数据:
+          food.ratings
+          selectType: 0/1/2
+          onlyContent: true/false
+      2. 计算逻辑
+          条件1: 类型
+            selectType-----rating.rateType
+            selectType===2 || selectType===rating.rateType
+          条件2: 是否只看带内容
+            onlyContent-----rating.text.length
+            !onlyContent || rating.text.length>0
+       */
+      filterRatings () {
+        const {ratings} = this.food
+        if(!ratings) { // 如果还没有数据, 返回空数组
+          return []
+        }
+        const {onlyContent, selectType} = this
+
+        return ratings.filter(rating => {
+
+          return (selectType===2 || selectType===rating.rateType) && (!onlyContent || rating.text.length>0)
+        })
       }
     },
 
     components: { // 局部注册
-      cartcontrol
+      cartcontrol,
+      ratingselect
     }
   }
 </script>
