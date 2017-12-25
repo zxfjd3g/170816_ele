@@ -44,7 +44,7 @@
           </li>
         </ul>
       </div>
-      <shopcart :foods="cartFoods"/>
+      <shopcart />
     </div>
     <food :food="food" ref="food"/>
   </div>
@@ -166,18 +166,6 @@
           return scrollY>=top && scrollY<tops[index+1]
         })
       },
-
-      cartFoods () {
-        const foods = []
-        this.goods.forEach(good => {
-          good.foods.forEach(food => {
-            if(food.count>0) {
-              foods.push(food)
-            }
-          })
-        })
-        return foods
-      }
     },
 
     components: {

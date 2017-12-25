@@ -4,7 +4,7 @@ import App from './App.vue'
 import split from './components/split/split.vue'
 import router from './router'
 import store from './store'
-
+import './filters'
 
 import './mock/mockServer'  // 加载这个模块即可
 import './common/stylus/fonts.styl'

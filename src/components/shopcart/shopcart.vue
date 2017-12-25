@@ -50,13 +50,10 @@
 
 <script>
   import BScroll from 'better-scroll'
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
 
   export default {
-    props: {
-      foods: Array,
-    },
 
     data () {
       return {
@@ -78,6 +75,9 @@
 
     computed: {
       ...mapState(['seller']),
+      ...mapGetters({
+        foods: 'cartFoods'
+      }),
 
       totalCount() {
         return this.foods.reduce((preTotal, food) => preTotal + food.count, 0)
