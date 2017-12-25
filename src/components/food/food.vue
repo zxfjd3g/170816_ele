@@ -3,7 +3,7 @@
     <div class="food" v-show="isShow" ref="food">
       <div class="food-content">
         <div class="image-header">
-          <img :src="food.image">
+          <img v-lazy="food.image">
           <div class="back" @click="toggleShow">
             <i class="icon-arrow_lift"></i>
           </div>
