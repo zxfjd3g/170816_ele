@@ -3,9 +3,16 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+/*
 import goods from '../pages/goods/goods.vue'
 import ratings from '../pages/ratings/ratings.vue'
 import seller from '../pages/seller/seller.vue'
+*/
+
+const goods = () => import('../pages/goods/goods.vue')  // import函数运行时动态加载模块包
+const ratings = () => import('../pages/ratings/ratings.vue')
+const seller = () => import('../pages/seller/seller.vue')
 
 Vue.use(VueRouter)
 
