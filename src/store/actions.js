@@ -13,23 +13,27 @@ import {
 } from './mutation-types'
 
 export default {
-  requestSeller({commit}) {
+  requestSeller({commit}, cb) {
     requestSeller().then(response => {
       const result = response.data  // {code:0, data: seller}
       if(result.code===0) {
         const seller = result.data
         seller.score = 3.5
         commit(RECEIVE_SELLER, {seller})
+
+        cb && cb()
       }
     })
   },
 
-  requestRatings({commit}) {
+  requestRatings({commit}, cb) {
     requestRatings().then(response => {
       const result = response.data  // {code:0, data: ratings}
       if(result.code===0) {
         const ratings = result.data
         commit(RECEIVE_RATINGS, {ratings})
+
+        cb && cb()
       }
     })
   },

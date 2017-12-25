@@ -70,17 +70,18 @@
   import BScroll from 'better-scroll'
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import ratingselect from '../ratingselect/ratingselect.vue'
+  import {ratingsMixin} from '../../utils/mixins'
 
   export default {
+    mixins: [ratingsMixin],
+
     props: {
       food: Object
     },
 
     data() {
       return {
-        isShow: false,
-        onlyContent: false, //true/false
-        selectType: 1 // 0/1/2
+        isShow: false
       }
     },
 
@@ -98,50 +99,6 @@
           })
         }
       },
-
-      toggleOnlyContent () {
-        this.onlyContent = !this.onlyContent
-        // 刷新scroll
-        this.$nextTick(() => {
-          this.scroll.refresh()
-        })
-      },
-
-      setSelectType (selectType) {
-       this.selectType = selectType
-        // 刷新scroll
-        this.$nextTick(() => {
-          this.scroll.refresh()
-        })
-      }
-    },
-
-    computed: {
-      /*
-      1. 相关数据:
-          food.ratings
-          selectType: 0/1/2
-          onlyContent: true/false
-      2. 计算逻辑
-          条件1: 类型
-            selectType-----rating.rateType
-            selectType===2 || selectType===rating.rateType
-          条件2: 是否只看带内容
-            onlyContent-----rating.text.length
-            !onlyContent || rating.text.length>0
-       */
-      filterRatings () {
-        const {ratings} = this.food
-        if(!ratings) { // 如果还没有数据, 返回空数组
-          return []
-        }
-        const {onlyContent, selectType} = this
-
-        return ratings.filter(rating => {
-
-          return (selectType===2 || selectType===rating.rateType) && (!onlyContent || rating.text.length>0)
-        })
-      }
     },
 
     components: { // 局部注册
