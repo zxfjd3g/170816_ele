@@ -5,20 +5,26 @@
            @click.stop="updateFoodCount(false)"></div>
     </transition>
     <div class="cart-count" v-show="food.count">{{food.count}}</div>
-    <div class="cart-add icon-add_circle" @click.stop="updateFoodCount(true)"></div>
+    <div class="cart-add icon-add_circle" @click.stop="updateFoodCount(true, $event)"></div>
   </div>
 </template>
 
 <script>
+  import PubSub from 'pubsub-js'
+
   export default {
     props: {
       food: Object
     },
 
     methods: {
-      updateFoodCount (isAdd) {
+      updateFoodCount (isAdd, event) {
         const {food} = this
         this.$store.dispatch('updateFoodCount', {food, isAdd})
+        if(isAdd) { // 点击+
+          // 显示小球
+          PubSub.publish('showBall', event.target)
+        }
       }
     }
   }

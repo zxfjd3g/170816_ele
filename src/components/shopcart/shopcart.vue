@@ -18,7 +18,18 @@
           </div>
         </div>
       </div>
-      <div class="ball-container"></div>
+      <div class="ball-container">
+        <transition v-for="(ball, index) in balls"
+                    :key="index"
+                    @before-enter="beforeDrop"
+                    @enter="drop"
+                    @after-enter="afterDrop">
+          <div class="ball" v-show="ball.isShow">
+            <div class="inner inner-hook"></div>
+          </div>
+        </transition>
+
+      </div>
 
       <transition name="swipe">
         <div class="shopcart-list" v-show="listShow">
@@ -50,6 +61,7 @@
 </template>
 
 <script>
+  import PubSub from 'pubsub-js'
   import { MessageBox,Toast } from 'mint-ui';
   import BScroll from 'better-scroll'
   import {mapState, mapGetters} from 'vuex'
@@ -59,11 +71,46 @@
 
     data () {
       return {
-        isShow: false
+        isShow: false,
+        balls: [
+          {isShow: false},
+          {isShow: false},
+          {isShow: false},
+          {isShow: false},
+          {isShow: false}
+        ]
       }
     },
 
+    mounted () {
+      // 订阅消息
+      PubSub.subscribe('showBall', (msg, startEl) => {
+        this.showBall(startEl)
+      })
+    },
+
     methods: {
+      showBall (startEl) {
+        // 1. 找到一个隐藏的小球
+        const ball = this.balls.find(ball => !ball.isShow)
+        // 2. 显示它
+        if(ball) {
+          ball.isShow = true
+        }
+      },
+      // 在enter动画开始之前回调, 指定动画起始时的样式状态
+      beforeDrop (el) {
+        console.log('beforeDrop()')
+      },
+      // 在beforeDrop执行完后立即回调, 指定动画结束时的样式状态
+      drop (el) {
+        console.log('drop()')
+      },
+      // 在动画结束后回调, 隐藏小球
+      afterDrop (el) {
+        console.log('afterDrop()')
+      },
+
       toggleShow () {
         if(this.totalCount) {
           this.isShow = !this.isShow

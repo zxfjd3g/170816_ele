@@ -51,7 +51,7 @@ router.get('/seller', function (req, res) {
 })
 
 // 4. 启用路由器
-app.use('/api', router)    // /api/goods
+// app.use('/api', router)    // /api/goods
 /*mock data end*/
 
 var compiler = webpack(webpackConfig)
