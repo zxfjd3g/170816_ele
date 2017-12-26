@@ -23,7 +23,8 @@
                     :key="index"
                     @before-enter="beforeDrop"
                     @enter="drop"
-                    @after-enter="afterDrop">
+                    @after-enter="afterDrop"
+                    :css="false">
           <div class="ball" v-show="ball.isShow">
             <div class="inner inner-hook"></div>
           </div>
@@ -78,7 +79,8 @@
           {isShow: false},
           {isShow: false},
           {isShow: false}
-        ]
+        ],
+        droppingBalls: [] // 保存所有正在显示的ball
       }
     },
 
@@ -96,19 +98,56 @@
         // 2. 显示它
         if(ball) {
           ball.isShow = true
+          ball.startEl = startEl
+          this.droppingBalls.push(ball)
         }
       },
+
       // 在enter动画开始之前回调, 指定动画起始时的样式状态
       beforeDrop (el) {
         console.log('beforeDrop()')
+
+        // 查找对应的ball
+        const ball = this.droppingBalls.shift()
+        const startEl = ball.startEl
+
+        // 计算偏移量
+        let offsetX = 0
+        let offsetY = 0
+        const elLeft = 32
+        const elBottom = 22
+        const {left, top} = startEl.getBoundingClientRect()
+        offsetX = left - elLeft
+        offsetY = -(window.innerHeight - elBottom - top)
+
+        // 瞬间移动到动画开始的位置
+        el.style.transform = `translateY(${offsetY}px)`
+        el.children[0].style.transform = `translateX(${offsetX}px)`
+
+        // 保存ball
+        el.ball = ball
       },
       // 在beforeDrop执行完后立即回调, 指定动画结束时的样式状态
       drop (el) {
         console.log('drop()')
+        // 强制重排重绘
+            // 排: 进行布局计算
+        const temp = el.clientHeight
+
+        this.$nextTick(() => {
+          el.style.transform = `translateX(0)`
+          el.children[0].style.transform = `translateY(0)`
+        })
       },
       // 在动画结束后回调, 隐藏小球
       afterDrop (el) {
         console.log('afterDrop()')
+        // 隐藏小球
+        // el.ball.isShow = false
+
+        setTimeout(() => {
+          el.ball.isShow = false
+        }, 400)
       },
 
       toggleShow () {
