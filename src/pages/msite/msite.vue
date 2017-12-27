@@ -72,12 +72,14 @@
       //获取导航食品类型列表
       const apiFoodTypes = await msiteFoodTypes(this.geohash)
       // 对数据结构进行处理后, 更新foodTypes状态
+
       let resLength = apiFoodTypes.length
       let tempArr = [...apiFoodTypes] // 返回一个新的数组
       const foodTypes = []
       for (let i = 0, j = 0; i < resLength; i += 8, j++) {
         foodTypes[j] = tempArr.splice(0, 8)
       }
+
       this.foodTypes = foodTypes
       //创建swiper对象, 实现翻页显示
       this.$nextTick(() => {
@@ -136,7 +138,6 @@
       padding-top: 2.1rem;
       background-color: #fff;
       border-bottom: 0.025rem solid $bc;
-      height: 10.6rem;
       .swiper-container {
         @include wh(100%, auto);
         padding-bottom: 0.6rem;

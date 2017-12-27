@@ -9,6 +9,7 @@ import {
   GET_USERINFO,
   RECORD_USERINFO,
 } from './mutation-types'
+import {setStore} from '../common/utils/storageUtil'
 
 export default {
   [RECEIVE_SELLER](state, {seller}) {

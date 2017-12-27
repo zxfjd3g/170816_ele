@@ -28,17 +28,17 @@
 
     mounted () {
       // 使用vue-resource发送ajax请求express提供的接口
-      this.$http.get('/api/seller')
+      /*this.$http.get('/api/seller')
         .then(response => {
           const result = response.data
           console.log('vue-resource', result)
-        })
+        })*/
       // 使用axios发送ajax请求mockjs提供的接口
-      axios.get('/api2/seller')
+      /*axios.get('/api2/seller')
         .then(response => {
           const result = response.data
           console.log('axios', result)
-        })
+        })*/
 
       // 通知vuex去ajax请求获取seller数据, 并更新状态
       this.$store.dispatch('requestSeller')
