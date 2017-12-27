@@ -3,6 +3,7 @@ import VueResource from 'vue-resource'
 import VueLazyload from 'vue-lazyload'
 import { Button } from 'mint-ui'
 import VueScroller from 'vue-scroller'
+import FastClick from 'fastclick'
 
 import App from './App.vue'
 import split from './components/split/split.vue'
@@ -26,6 +27,13 @@ Vue.use(VueScroller) // 内部定义了一个全局的组件标签<scroller>
 Vue.component('split', split)
 Vue.component(Button.name, Button)
 Vue.component('svgImage', svgImage)
+
+
+if ('addEventListener' in document) {
+  document.addEventListener('DOMContentLoaded', function() {
+    FastClick.attach(document.body);
+  }, false);
+}
 
 new Vue({
   el: '#app',
