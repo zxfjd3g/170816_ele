@@ -4,13 +4,13 @@
 
     <div class="tab">
       <div class="tab-item">
-        <router-link to="/goods">商品</router-link>
+        <router-link to="/shop/goods" replace>商品</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/ratings">评价</router-link>
+        <router-link to="/shop/ratings" replace>评价</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/seller">商家</router-link>
+        <router-link to="/shop/seller" replace>商家</router-link>
       </div>
     </div>
 

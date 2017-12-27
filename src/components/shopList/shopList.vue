@@ -2,7 +2,7 @@
   <div class="shoplist_container">
     <ul class="shoplist" v-if="shops.length">
       <router-link class="shop_li"
-                   :to="{path: 'shop', query:{geohash, id: item.id}}"
+                   :to="{path: 'shop'}"
                    tag='li'
                    v-for="item in shops"
                    :key="item.id">

@@ -59,6 +59,10 @@ const routes = [
     component: shop,
     children: [
       {
+        path: '',
+        redirect: 'goods'
+      },
+      {
         path: 'goods',
         component: goods
       },

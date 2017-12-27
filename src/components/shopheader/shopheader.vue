@@ -3,6 +3,9 @@
     <div class="content-wrapper">
       <div class="avatar">
         <img :src="seller.avatar" >
+        <div class="back" @click="$router.back()">
+          <i class="icon-arrow_lift"></i>
+        </div>
       </div>
       <div class="content">
         <div class="title">
@@ -120,6 +123,15 @@
           width 100%
           height 100%
           border-radius 2px
+        .back
+          position: absolute
+          top: 10px
+          left: 0
+          .icon-arrow_lift
+            display: block
+            padding: 10px
+            font-size: 20px
+            color: #fff
       .content
         float left
         margin-left 16px

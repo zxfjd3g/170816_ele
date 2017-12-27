@@ -23,8 +23,7 @@
                     :key="index"
                     @before-enter="beforeDrop"
                     @enter="drop"
-                    @after-enter="afterDrop"
-                    :css="false">
+                    @after-enter="afterDrop">
           <div class="ball" v-show="ball.isShow">
             <div class="inner inner-hook"></div>
           </div>
@@ -143,11 +142,8 @@
       afterDrop (el) {
         console.log('afterDrop()')
         // 隐藏小球
-        // el.ball.isShow = false
-
-        setTimeout(() => {
-          el.ball.isShow = false
-        }, 400)
+        el.style.display = 'none'
+        el.ball.isShow = false
       },
 
       toggleShow () {
