@@ -49,19 +49,12 @@ export const accountLogin = (username, password, captcha_code) => fetch('/v2/log
 /**
  * 获取短信验证码
  */
-export const mobileCode = phone => fetch('/v4/mobile/verify_code/send', {
-  mobile: phone,
-  scene: 'login',
-  type: 'sms'
-}, 'POST')
+export const mobileCode = phone => ajax('/test/sendcode', {phone})
 
 /**
  * 手机号登录
  */
-export const phoneLogin = (code, mobile, validate_token) => fetch('/v1/login/app_mobile', {
-  code,
-  mobile,
-  validate_token
-}, 'POST')
+export const phoneLogin = (phone, code) => ajax('/test/login', {phone, code}, 'POST')
+
 
 

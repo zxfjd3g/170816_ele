@@ -126,7 +126,7 @@
             }
           }, 1000)
           //发送短信验证码
-          let res = await mobileCode(this.phoneNumber)
+          let res = await mobileCode(this.phoneNumber) // {"code": 0}
           if (res.message) {
             this.showAlert = true
             this.alertText = res.message
@@ -149,7 +149,27 @@
           }
 
           //手机号登录
-          this.userInfo = await phoneLogin(this.mobileCode, this.phoneNumber, this.validate_token);
+          const result = await phoneLogin(this.phoneNumber, this.mobileCode);
+          if(result.code===0) {
+            this.userInfo = result.data
+          } else {
+            this.userInfo = {
+              message: '登陆失败, 手机号或验证不正确'
+            }
+          }
+          /*
+          {
+            code : 1
+          }
+          {
+            "code": 0,
+            "data": {
+              user_id: 3,
+              phone: '13716962345'
+            }
+          }
+           */
+
         } else {
           if (!this.userAccount) {
             this.showAlert = true

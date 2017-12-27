@@ -129,7 +129,7 @@
         if (this.userInfo && this.userInfo.user_id) {
           this.avatar = this.userInfo.avatar
           this.username = this.userInfo.username
-          this.mobile = this.userInfo.mobile || '暂无绑定手机号'
+          this.mobile = this.userInfo.mobile || this.userInfo.phone || '暂无绑定手机号'
           this.balance = this.userInfo.balance
           this.count = this.userInfo.gift_amount
           this.pointNumber = this.userInfo.point
