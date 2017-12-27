@@ -215,10 +215,11 @@
       width: 100%;
       background: $fc;
       box-sizing: border-box;
+      overflow: hidden;
       ul {
         .info-data-link {
           float: left;
-          width: 33.33%;
+          width: 33%;
           display: inline-block;
           border-right: 1px solid #f1f1f1;
           span {
